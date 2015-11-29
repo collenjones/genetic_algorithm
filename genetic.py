@@ -3,7 +3,12 @@ from random import random, randint
 
 
 def individual(length, min, max):
-    """Create a member of the population."""
+    """Create a member of the population.
+
+    :length int: the number of values for an individual to contain
+    :min int: the minimum possible value
+    :max int: the maximum possible value
+    """
     return [randint(min, max) for x in xrange(length)]
 
 
@@ -29,12 +34,24 @@ def fitness(individual, target):
 
 
 def grade(population, target):
-    """Find average fitness for a population."""
+    """Find average fitness for a population.
+
+    :population list: a list of individuals
+    :target int: the target for an individual
+    """
     summed = reduce(add, (fitness(individual, target) for individual in population), 0)
     return summed / (len(population) * 1.0)
 
 
 def evolve(population, target, retain=0.2, random_select=0.05, mutate=0.01):
+    """Evolve the population to try to reach the target.
+
+    :population list: a list of individuals
+    :target int: the best possible result for an individual
+    :retain float: the percentage of individuals to retain from a population for parents
+    :random_select float: the percentage chance of randomly selecting an individual to be a parent for genetic diversity
+    :mutate float: the percentage chance of mutating an individual
+    """
     graded = [(fitness(individual, target), individual) for individual in population]
     graded = [fit_score[1] for fit_score in sorted(graded)]
     retain_length = int(len(graded)*retain)
